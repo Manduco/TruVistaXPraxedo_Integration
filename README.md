@@ -1,25 +1,25 @@
 
 # TruVista & Praxedo Integration
 
-## Overview
-This project provides basic data integration between **TruVista’s CHR_Omnia360 ERP/CRM** application and **Praxedo’s WorkOrder and Dispatch application**. The solution is an **OnPremise .NET Application** that extracts, transforms, and loads (ETL) data between the two systems, ensuring accurate synchronization.
+## <ins>Overview</ins>
+  This project provides basic data integration between **TruVista’s CHR_Omnia360 ERP/CRM** application and **Praxedo’s WorkOrder and Dispatch application**. The solution is an **OnPremise .NET Application** that extracts, transforms, and loads (ETL) data between the two systems, ensuring accurate synchronization.
 
-## Solution Architecture
+### Solution Architecture
 ![Solution Architecture](images/architecture-diagram.jpg)  
 *This diagram outlines the major components of the system integration.*
 
-## Wireframes (Draft)
+### Wireframes (Draft)
 ![Wireframe Example](images/wireframe-home.jpg)  
 *Preliminary wireframe sketch of the application UI workflow.*
 
-## User Stories
+###  <ins>User Stories</ins>
 1. **As a system administrator**, I want to configure integration settings so that I can define API authentication securely.
 2. **As an operations manager**, I need automated synchronization of work orders between CHR and Praxedo so that I don't have to enter data manually.
 3. **As a customer service representative**, I want account and contact information synchronized in real time so that I have accurate records.
 4. **As a technician**, I need work orders in Praxedo to update back in CHR after completion so that my progress is tracked correctly.
 5. **As an IT engineer**, I need logging and error-handling mechanisms so that I can troubleshoot any synchronization issues quickly.
 
-## Use Cases
+##  <ins>Use Cases</ins>
 ### **Use Case 1: Synchronizing Accounts/Contacts**
 - **Actor:** System Administrator
 - **Precondition:** API credentials are configured
