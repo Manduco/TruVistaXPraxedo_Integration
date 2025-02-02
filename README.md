@@ -26,34 +26,14 @@
 
 
 ##  <ins>Use Cases</ins>
-### **Use Case 1: Synchronizing Accounts/Contacts**
-- **Actor:** System Administrator
-- **Precondition:** API credentials are configured
-- **Steps:**
-  1. The scheduled task runs at a defined interval.
-  2. The integration extracts account and contact data from CHR_Omnia360.
-  3. The data is transformed into Praxedo’s expected format.
-  4. The data is sent to Praxedo via API.
-  5. Logging captures success or failure.
-- **Postcondition:** Accounts and contacts are updated in Praxedo.
-
-### **Use Case 2: Work Order Sync**
-- **Actor:** Field Technician
-- **Steps:**
-  1. A work order is updated in Praxedo.
-  2. The scheduled task detects the update.
-  3. The integration retrieves the updated work order.
-  4. The transformed data is sent back to CHR.
-  5. The system logs the sync result.
-
-(Include 3 more use cases here)
+[📄 View Detailed Use Cases](docs/use-cases.md)
 
 ## Use Case Diagram
 ![Use Case Diagram](images/use-case-diagram.jpg)  
 *This diagram visualizes the actors and system interactions.*
 
 ## Requirements
-- **Programming Language:** VB.NET
+- **Programming Language:** C# .NET
 - **Database:** SQL Server
 - **API Integration:** REST/SOAP (depending on Praxedo’s API)
 - **Authentication:** Secure API token-based authentication
