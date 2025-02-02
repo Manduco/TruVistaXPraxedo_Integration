@@ -9,7 +9,7 @@
 *This diagram outlines the major components of the system integration.*
 
 ### Wireframes (Draft)
-![Wireframe Example](images/wireframe-home.jpg)  
+![Wireframe](imagesdocs/integration-drawio.txt.jpg)  
 *Preliminary wireframe sketch of the application UI workflow.*
 
 ###  <ins>User Stories</ins>
