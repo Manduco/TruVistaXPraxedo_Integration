@@ -5,11 +5,11 @@
   This project provides basic data integration between **TruVista’s CHR_Omnia360 ERP/CRM** application and **Praxedo’s WorkOrder and Dispatch application**. The solution is an **OnPremise .NET Application** that extracts, transforms, and loads (ETL) data between the two systems, ensuring accurate synchronization.
 
 ### Solution Architecture
-![Solution Architecture](images/architecture-diagram.jpg)  
+![Solution Architecture]()  
 *This diagram outlines the major components of the system integration.*
 
 ### Wireframes (Draft)
-![Wireframe Example](images/wireframe-home.jpg)  
+![Wireframe](docs/integration-drawio.txt.jpg)  
 *Preliminary wireframe sketch of the application UI workflow.*
 
 ###  <ins>User Stories</ins>
