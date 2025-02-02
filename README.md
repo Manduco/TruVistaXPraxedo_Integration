@@ -70,4 +70,4 @@ This project provides basic data integration between **TruVista’s CHR_Omnia360
 
 ---
 
-Once you've created your repository and added this structure, let me know if you need help formatting Markdown, designing diagrams, or structuring the .NET components. 🚀
+We are off!🚀
