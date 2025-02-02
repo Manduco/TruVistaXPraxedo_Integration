@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 OPR/116.0.0.0" version="26.0.10">
+  <diagram name="Solution Architecture" id="solution-arch">
+    <mxGraphModel dx="1691" dy="870" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="crm-system" value="CHR_Omnia360 (On-Premise)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="40" y="120" width="240" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="crm-db" value="SQL Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" parent="crm-system" vertex="1">
+          <mxGeometry x="20" y="40" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-crm-integration" value="SQL Queries" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="crm-system" target="integration-layer" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="integration-layer" value=".NET Integration Applications" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="360" y="120" width="320" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="accounts-sync" value="Accounts/Contacts Sync&#xa;(.NET Executable)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="integration-layer" vertex="1">
+          <mxGeometry x="20" y="40" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="products-validate" value="Products Validation&#xa;(.NET Executable)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="integration-layer" vertex="1">
+          <mxGeometry x="20" y="120" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="workorders-sync" value="Work Orders Sync&#xa;(.NET Executable)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="integration-layer" vertex="1">
+          <mxGeometry x="20" y="200" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="logging-component" value="Error Handling &amp; Logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="integration-layer" vertex="1">
+          <mxGeometry x="20" y="280" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="scheduler" value="Windows Task Scheduler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="integration-layer" vertex="1">
+          <mxGeometry x="20" y="340" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="praxedo-system" value="Praxedo (Cloud)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" parent="1" vertex="1">
+          <mxGeometry x="760" y="120" width="240" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="praxedo-api" value="REST API" style="rounded=1;whiteSpace=wrap;html=1;" parent="praxedo-system" vertex="1">
+          <mxGeometry x="20" y="40" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-integration-praxedo" value="REST API Calls" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="integration-layer" target="praxedo-system" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="Legend" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="600" width="200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-1" value="&#xa;♦ On-Premise Components&#xa;&#xa;♦ Integration Services&#xa;&#xa;♦ Cloud Services&#xa;&#xa;♦ Data Flows" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="legend" vertex="1">
+          <mxGeometry y="26" width="200" height="124" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
