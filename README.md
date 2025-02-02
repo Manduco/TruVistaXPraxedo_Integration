@@ -13,11 +13,17 @@
 *Preliminary wireframe sketch of the application UI workflow.*
 
 ###  <ins>User Stories</ins>
-1. **As a system administrator**, I want to configure integration settings so that I can define API authentication securely.
-2. **As an operations manager**, I need automated synchronization of work orders between CHR and Praxedo so that I don't have to enter data manually.
-3. **As a customer service representative**, I want account and contact information synchronized in real time so that I have accurate records.
-4. **As a technician**, I need work orders in Praxedo to update back in CHR after completion so that my progress is tracked correctly.
-5. **As an IT engineer**, I need logging and error-handling mechanisms so that I can troubleshoot any synchronization issues quickly.
+1. **System Administrator**  
+   *As a system administrator, I want the integration to handle API authentication automatically using secure credentials so that I don’t have to configure it manually.*
+2. **Operations Manager**  
+   *As an operations manager, I need work orders from CHR to be automatically synced to Praxedo and vice versa so that my team can focus on field operations instead of data entry.*
+3. **Data Analyst**  
+   *As a data analyst, I want account and contact information to be consistently updated between CHR and Praxedo so that reporting and customer records remain accurate.*
+4. **Field Technician**  
+   *As a field technician, I need completed work orders in Praxedo to reflect updates in CHR in real time so that my job completion status is accurately recorded.*
+5. **DevOps Engineer**  
+   *As a DevOps engineer, I need comprehensive logging and error-handling for each data sync so that I can quickly diagnose and resolve any integration failures.*
+
 
 ##  <ins>Use Cases</ins>
 ### **Use Case 1: Synchronizing Accounts/Contacts**
