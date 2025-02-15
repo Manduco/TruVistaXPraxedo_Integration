@@ -55,5 +55,19 @@
 - [ ] Set up API credentials and data mapping in CHR and Praxedo.
 
 ---
+## Requirements Table
+
+| ID      | Requirement Description  |
+|---------|--------------------------|
+| RQ-001 | The system shall synchronize accounts and contacts from CHR to Praxedo in real-time to ensure accurate customer records. |
+| RQ-002 | The system shall allow work orders to flow from CHR to Praxedo and back with status updates occurring within 5 minutes. |
+| RQ-003 | The integration shall verify the existence of product records in both systems using a common key. |
+| RQ-004 | The system shall generate error logs for failed synchronizations and notify administrators via email within 10 minutes of failure detection. |
+| RQ-005 | The integration shall support scheduled task execution, running automatically at predefined intervals without manual intervention. |
+| RQ-006 | The system shall provide a logging mechanism to track all data changes and transactions between CHR and Praxedo for audit purposes. |
+| RQ-007 | The system shall implement retry logic for failed synchronizations, ensuring data consistency and reducing manual intervention. |
+| RQ-008 | The integration shall support role-based access control (RBAC) to restrict access to configuration settings and logs to authorized users only. |
+| RQ-009 | The system shall include debugging functionality to test and validate integration behavior within the evaluation instance of Praxedo, allowing developers to simulate data flows and detect issues before deployment. |
+
 
 We are off!🚀
