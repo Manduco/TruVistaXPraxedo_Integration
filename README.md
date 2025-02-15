@@ -43,7 +43,7 @@
 [📄 View Detailed Use Cases](docs/use-cases.md)
 
 ## Use Case Diagram
-![Use Case Diagram](images/use-case-diagram.jpg)  
+![Use Case Diagram](docs/Praxedo System .jpg)  
 *This diagram visualizes the actors and system interactions.*
 
 ## Requirements
