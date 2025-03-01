@@ -1,11 +1,25 @@
 
 # TruVista & Praxedo Integration
 
+## Table of Contents
+
+1. [Overview](#overview)
+   - [Solution Architecture](#solution-architecture)
+   - [Wireframes (Draft)](#wireframes-draft)
+2. [User Stories](#user-stories)
+3. [Use Cases](#use-cases)
+   - [Use Case Diagram](#use-case-diagram)
+4. [Requirements](#requirements)
+5. [Repository Contents](#repository-contents)
+6. [Next Steps](#next-steps)
+7. [Requirements Table](#requirements-table)
+
+
 ## <ins>Overview</ins>
   This project provides basic data integration between **TruVista’s CHR_Omnia360 ERP/CRM** application and **Praxedo’s WorkOrder and Dispatch application**. The solution is an **OnPremise .NET Application** that extracts, transforms, and loads (ETL) data between the two systems, ensuring accurate synchronization.
 
 ### Solution Architecture
-![Solution Architecture]()  
+![Solution Architecture](docs/solution-architecture.txt.jpg)  
 *This diagram outlines the major components of the system integration.*
 
 ### Wireframes (Draft)
@@ -13,41 +27,27 @@
 *Preliminary wireframe sketch of the application UI workflow.*
 
 ###  <ins>User Stories</ins>
-1. **As a system administrator**, I want to configure integration settings so that I can define API authentication securely.
-2. **As an operations manager**, I need automated synchronization of work orders between CHR and Praxedo so that I don't have to enter data manually.
-3. **As a customer service representative**, I want account and contact information synchronized in real time so that I have accurate records.
-4. **As a technician**, I need work orders in Praxedo to update back in CHR after completion so that my progress is tracked correctly.
-5. **As an IT engineer**, I need logging and error-handling mechanisms so that I can troubleshoot any synchronization issues quickly.
+1. **System Administrator**  
+   *As a system administrator, I want the integration to handle API authentication automatically using secure credentials so that I don’t have to configure it manually.*
+2. **Operations Manager**  
+   *As an operations manager, I need work orders from CHR to be automatically synced to Praxedo and vice versa so that my team can focus on field operations instead of data entry.*
+3. **Data Analyst**  
+   *As a data analyst, I want account and contact information to be consistently updated between CHR and Praxedo so that reporting and customer records remain accurate.*
+4. **Field Technician**  
+   *As a field technician, I need completed work orders in Praxedo to reflect updates in CHR in real time so that my job completion status is accurately recorded.*
+5. **DevOps Engineer**  
+   *As a DevOps engineer, I need comprehensive logging and error-handling for each data sync so that I can quickly diagnose and resolve any integration failures.*
+
 
 ##  <ins>Use Cases</ins>
-### **Use Case 1: Synchronizing Accounts/Contacts**
-- **Actor:** System Administrator
-- **Precondition:** API credentials are configured
-- **Steps:**
-  1. The scheduled task runs at a defined interval.
-  2. The integration extracts account and contact data from CHR_Omnia360.
-  3. The data is transformed into Praxedo’s expected format.
-  4. The data is sent to Praxedo via API.
-  5. Logging captures success or failure.
-- **Postcondition:** Accounts and contacts are updated in Praxedo.
-
-### **Use Case 2: Work Order Sync**
-- **Actor:** Field Technician
-- **Steps:**
-  1. A work order is updated in Praxedo.
-  2. The scheduled task detects the update.
-  3. The integration retrieves the updated work order.
-  4. The transformed data is sent back to CHR.
-  5. The system logs the sync result.
-
-(Include 3 more use cases here)
+[📄 View Detailed Use Cases](docs/use-cases.md)
 
 ## Use Case Diagram
-![Use Case Diagram](images/use-case-diagram.jpg)  
+![Use Case Diagram](docs/PraxedoSystem.jpg)  
 *This diagram visualizes the actors and system interactions.*
 
 ## Requirements
-- **Programming Language:** VB.NET
+- **Programming Language:** C# .NET
 - **Database:** SQL Server
 - **API Integration:** REST/SOAP (depending on Praxedo’s API)
 - **Authentication:** Secure API token-based authentication
@@ -69,5 +69,19 @@
 - [ ] Set up API credentials and data mapping in CHR and Praxedo.
 
 ---
+## Requirements Table
+
+| ID      | Requirement Description  |
+|---------|--------------------------|
+| RQ-001 | The system shall synchronize accounts and contacts from CHR to Praxedo in real-time to ensure accurate customer records. |
+| RQ-002 | The system shall allow work orders to flow from CHR to Praxedo and back with status updates occurring within 5 minutes. |
+| RQ-003 | The integration shall verify the existence of product records in both systems using a common key. |
+| RQ-004 | The system shall generate error logs for failed synchronizations and notify administrators via email within 10 minutes of failure detection. |
+| RQ-005 | The integration shall support scheduled task execution, running automatically at predefined intervals without manual intervention. |
+| RQ-006 | The system shall provide a logging mechanism to track all data changes and transactions between CHR and Praxedo for audit purposes. |
+| RQ-007 | The system shall implement retry logic for failed synchronizations, ensuring data consistency and reducing manual intervention. |
+| RQ-008 | The integration shall support role-based access control (RBAC) to restrict access to configuration settings and logs to authorized users only. |
+| RQ-009 | The system shall include debugging functionality to test and validate integration behavior within the evaluation instance of Praxedo, allowing developers to simulate data flows and detect issues before deployment. |
+
 
 We are off!🚀
