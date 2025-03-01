@@ -1,0 +1,1051 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ws.praxedo.com/v6/businessEvent" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="BusinessEventManagerService" targetNamespace="http://ws.praxedo.com/v6/businessEvent" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://ws.praxedo.com/policies/v1.0" location="https://am2.praxedo.com/eTech/services/cxf/v6/BusinessEventManager?wsdl=Pxo-policies-v1.0.wsdl" />
+  <wsdl:types>
+    <xsd:schema xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://ws.praxedo.com/v6/businessEvent">
+      <xs:import namespace="http://www.w3.org/2005/05/xmlmime" />
+      <xs:element name="addAnnotation" type="tns:addAnnotation" />
+      <xs:element name="addAnnotationResponse" type="tns:addAnnotationResponse" />
+      <xs:element name="cancelEvent" type="tns:cancelEvent" />
+      <xs:element name="cancelEventResponse" type="tns:cancelEventResponse" />
+      <xs:element name="createEvents" type="tns:createEvents" />
+      <xs:element name="createEventsResponse" type="tns:createEventsResponse" />
+      <xs:element name="deleteEvents" type="tns:deleteEvents" />
+      <xs:element name="deleteEventsResponse" type="tns:deleteEventsResponse" />
+      <xs:element name="getEvents" type="tns:getEvents" />
+      <xs:element name="getEventsResponse" type="tns:getEventsResponse" />
+      <xs:element name="invalidateEvent" type="tns:invalidateEvent" />
+      <xs:element name="invalidateEventResponse" type="tns:invalidateEventResponse" />
+      <xs:element name="reopenEvent" type="tns:reopenEvent" />
+      <xs:element name="reopenEventResponse" type="tns:reopenEventResponse" />
+      <xs:element name="scheduleEvent" type="tns:scheduleEvent" />
+      <xs:element name="scheduleEventResponse" type="tns:scheduleEventResponse" />
+      <xs:element name="searchEvents" type="tns:searchEvents" />
+      <xs:element name="searchEventsResponse" type="tns:searchEventsResponse" />
+      <xs:element name="unscheduleEvent" type="tns:unscheduleEvent" />
+      <xs:element name="unscheduleEventResponse" type="tns:unscheduleEventResponse" />
+      <xs:element name="updateEvent" type="tns:updateEvent" />
+      <xs:element name="updateEventResponse" type="tns:updateEventResponse" />
+      <xs:complexType name="searchEvents">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:businessEventsRequest" />
+          <xs:element name="batchSize" type="xs:int" />
+          <xs:element name="firstResultIndex" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="businessEventsRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="agentIdConstraint" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="dateConstraints" nillable="true" type="tns:dateConstraint" />
+          <xs:element minOccurs="0" name="serviceOrderConstraint" type="tns:serviceOrderConstraint" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="statusConstraint" nillable="true" type="tns:status" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="typeConstraint" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="dateConstraint">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="dateRange" type="xs:dateTime" />
+          <xs:element name="name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="serviceOrderConstraint">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="idConstraint" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="linkedConstraint" type="xs:boolean" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="statusConstraint" nillable="true" type="tns:serviceOrderStatus" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="typeConstraint" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsEntry">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="key" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchEventsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessEventsRequestResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="businessEventsRequestResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:entitiesRequestResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="entities" type="tns:businessEvent" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="entitiesRequestResult" abstract="true">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:operationResult">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="operationResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:simpleOperationResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="warnings" nillable="true" type="tns:simpleOperationResult" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="simpleOperationResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+          <xs:element name="resultCode" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="businessEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="annotations" nillable="true" type="tns:annotation" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="attachments" nillable="true" type="tns:extendedAttachment" />
+          <xs:element minOccurs="0" name="completionData" type="tns:completionData" />
+          <xs:element minOccurs="0" name="contractData" type="tns:contractData" />
+          <xs:element minOccurs="0" name="coreData" type="tns:coreData" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="id" type="xs:string" />
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+          <xs:element minOccurs="0" name="qualificationData" type="tns:qualificationData" />
+          <xs:element minOccurs="0" name="remoteStatus" type="xs:string" />
+          <xs:element minOccurs="0" name="schedulingData" type="tns:schedulingData" />
+          <xs:element minOccurs="0" name="status" type="tns:status" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="annotation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="author" type="xs:string" />
+          <xs:element minOccurs="0" name="coordinates" type="xs:string" />
+          <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="fields" nillable="true" type="tns:reportElement" />
+          <xs:element minOccurs="0" name="note" type="xs:string" />
+          <xs:element minOccurs="0" name="type" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsValuedEntry">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:wsEntry">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="value" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedAttachment">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:attachment">
+            <xs:sequence>
+              <xs:element name="addedOnDevice" type="xs:boolean" />
+              <xs:element minOccurs="0" name="creationDate" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="description" type="xs:string" />
+              <xs:element name="external" type="xs:boolean" />
+              <xs:element minOccurs="0" name="id" type="xs:string" />
+              <xs:element minOccurs="0" name="lastModificationDate" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="size" type="xs:int" />
+              <xs:element name="unmodifiable" type="xs:boolean" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="attachment">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="entityId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="completionData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="fields" nillable="true" type="tns:reportElement" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="lifecycleTransitionDates" nillable="true" type="tns:lifecycleTransitionDate" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="usedItems" nillable="true" type="tns:usedItem" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reportElement" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="id" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reportField">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:reportElement">
+            <xs:sequence>
+              <xs:element xmime:expectedContentTypes="application/octet-stream" minOccurs="0" name="binaryData" type="xs:base64Binary" />
+              <xs:element minOccurs="0" name="fillingDate" type="xs:dateTime" />
+              <xs:element minOccurs="0" name="value" type="xs:string" />
+              <xs:element minOccurs="0" name="valueCode" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="tableSection">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:reportElement">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="rows" nillable="true" type="tns:rowSection" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="rowSection">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:reportElement">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="cells" nillable="true" type="tns:reportField" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedReportElement" abstract="true">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:reportElement">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="condition" type="xs:string" />
+              <xs:element minOccurs="0" name="insertBeforePoint" type="xs:boolean" />
+              <xs:element minOccurs="0" name="insertionPointId" type="xs:string" />
+              <xs:element minOccurs="0" name="name" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedReportField">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:extendedReportElement">
+            <xs:sequence>
+              <xs:element name="anomaly" type="xs:boolean" />
+              <xs:element name="compulsory" type="xs:boolean" />
+              <xs:element minOccurs="0" name="defaultValue" type="xs:string" />
+              <xs:element minOccurs="0" name="instruction" type="tns:instruction" />
+              <xs:element name="tableSummary" type="xs:boolean" />
+              <xs:element minOccurs="0" name="type" type="tns:extendedReportFieldType" />
+              <xs:element minOccurs="0" name="value" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedReportSection">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:extendedReportElement">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="billingSectionPosition" type="tns:billingSectionPosition" />
+              <xs:element name="compulsory" type="xs:boolean" />
+              <xs:element name="contextual" type="xs:boolean" />
+              <xs:element minOccurs="0" name="editable" type="tns:editable" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="elements" nillable="true" type="tns:extendedReportElement" />
+              <xs:element name="fixedSize" type="xs:boolean" />
+              <xs:element minOccurs="0" name="type" type="tns:extendedReportSectionType" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedReportFieldDropDownMenu">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:extendedReportField">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="authorizedValues" nillable="true" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedReportFieldPhoto">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:extendedReportField">
+            <xs:sequence>
+              <xs:element name="annotatable" type="xs:boolean" />
+              <xs:element minOccurs="0" name="geocodingMode" type="tns:geocodingMode" />
+              <xs:element minOccurs="0" name="quality" type="tns:quality" />
+              <xs:element minOccurs="0" name="source" type="tns:source" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedReportFieldRLDropDownMenu">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:extendedReportField">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="controlFieldId" type="xs:string" />
+              <xs:element minOccurs="0" name="referenceListId" type="xs:string" />
+              <xs:element minOccurs="0" name="valueCode" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedReportFieldText">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:extendedReportField">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="comment" type="xs:string" />
+              <xs:element minOccurs="0" name="example" type="xs:string" />
+              <xs:element minOccurs="0" name="regexp" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="extendedReportFieldUrl">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:extendedReportField">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="clickableMode" type="tns:clickableOn" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="queryFields" nillable="true" type="xs:string" />
+              <xs:element minOccurs="0" name="url" type="xs:string" />
+              <xs:element minOccurs="0" name="urlType" type="tns:urlType" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="lifecycleTransitionDate">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="usedItem">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="agentId" type="xs:string" />
+          <xs:element name="booked" type="xs:boolean" />
+          <xs:element minOccurs="0" name="comment" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="dimensions" nillable="true" type="xs:double" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="id" type="xs:string" />
+          <xs:element name="ordered" type="xs:boolean" />
+          <xs:element minOccurs="0" name="quantity" type="xs:double" />
+          <xs:element minOccurs="0" name="sectionId" type="xs:string" />
+          <xs:element minOccurs="0" name="serialNumber" type="xs:string" />
+          <xs:element minOccurs="0" name="storeId" type="xs:string" />
+          <xs:element minOccurs="0" name="vatRate" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="contractData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="id" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="coreData">
+        <xs:sequence>
+          <xs:element name="anomaly" type="xs:boolean" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="contacts" nillable="true" type="tns:contact" />
+          <xs:element minOccurs="0" name="creationDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="description" type="xs:string" />
+          <xs:element minOccurs="0" name="earliestDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="expirationDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="orderingCustomer" type="xs:string" />
+          <xs:element minOccurs="0" name="organizationalUnitId" type="xs:string" />
+          <xs:element minOccurs="0" name="parentBusinessEvent" type="xs:string" />
+          <xs:element name="priority" type="xs:int" />
+          <xs:element minOccurs="0" name="referentialData" type="tns:referentialData" />
+          <xs:element minOccurs="0" name="serviceOrder" type="tns:serviceOrder" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="contact">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="coordinates" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element name="flags" type="xs:int" />
+          <xs:element minOccurs="0" name="label" type="xs:string" />
+          <xs:element minOccurs="0" name="type" type="tns:type" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="referentialData" abstract="true">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="serviceOrder">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="id" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="serviceOrderPosition">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:serviceOrder">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="index" type="xs:int" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="serviceOrderInsertion">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:serviceOrderPosition">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="position" type="tns:insertionPosition" />
+              <xs:element minOccurs="0" name="relativeBusinessEventId" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="externalReferentialData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:referentialData">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="customerName" type="xs:string" />
+              <xs:element minOccurs="0" name="equipmentName" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+              <xs:element minOccurs="0" name="location" type="tns:location" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="location">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="address" type="xs:string" />
+          <xs:element minOccurs="0" name="city" type="xs:string" />
+          <xs:element minOccurs="0" name="contact" type="xs:string" />
+          <xs:element minOccurs="0" name="description" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="geolocation" type="tns:geolocation" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="zipCode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="geolocation">
+        <xs:sequence>
+          <xs:element name="latitude" type="xs:double" />
+          <xs:element name="longitude" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="praxedoReferentialData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:referentialData">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="customerId" type="xs:string" />
+              <xs:element minOccurs="0" name="equipmentId" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+              <xs:element minOccurs="0" name="geolocation" type="tns:geolocation" />
+              <xs:element minOccurs="0" name="locationId" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="tripReferentialData">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:referentialData">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="end" type="tns:referentialData" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+              <xs:element minOccurs="0" name="start" type="tns:referentialData" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="qualificationData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="expectedItems" nillable="true" type="tns:extendedItem" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="instructions" nillable="true" type="tns:reportElement" />
+          <xs:element minOccurs="0" name="type" type="tns:businessEventType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="extendedItem">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:usedItem">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="expectedDimensions" nillable="true" type="xs:double" />
+              <xs:element minOccurs="0" name="expectedQuantity" type="xs:double" />
+              <xs:element name="fixedPrice" type="xs:boolean" />
+              <xs:element minOccurs="0" name="name" type="xs:string" />
+              <xs:element minOccurs="0" name="price" type="xs:double" />
+              <xs:element minOccurs="0" name="reference" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="businessEventType">
+        <xs:sequence>
+          <xs:element name="duration" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element name="id" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="skills" nillable="true" type="tns:skill" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="skill">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:string" />
+          <xs:element minOccurs="0" name="level" type="tns:level" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="schedulingData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="agentId" type="tns:entityId" />
+          <xs:element minOccurs="0" name="appointmentDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="extensions" nillable="true" type="tns:wsValuedEntry" />
+          <xs:element minOccurs="0" name="schedulingDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="schedulingEndDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="teamMates" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="machines" nillable="true" type="xs:string" />
+          <xs:element name="useSchedulingHour" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="entityId" abstract="true">
+        <xs:sequence>
+          <xs:element name="id" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="praxedoEntityId">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:entityId">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="externalEntityId">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:entityId">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="invalidateEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="businessEventId" type="xs:string" />
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="invalidateEventResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:operationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createEvents">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="events" type="tns:businessEvent" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createEventsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:entitiesOperationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="entitiesOperationResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:operationResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="results" nillable="true" type="tns:entityOperationResult" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="entityOperationResult">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:operationResult">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="id" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="cancelEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="businessEventId" type="xs:string" />
+          <xs:element minOccurs="0" name="cancellationRequest" type="tns:cancellationRequest" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="cancellationRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+          <xs:element minOccurs="0" name="reasonCode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="cancelEventResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:operationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="event" type="tns:businessEvent" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="updateEventResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:operationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="unscheduleEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="businessEventId" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="unscheduleEventResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:operationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reopenEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="businessEventId" type="xs:string" />
+          <xs:element minOccurs="0" name="reopeningRequest" type="tns:reopeningRequest" />
+          <xs:element minOccurs="0" name="schedulingData" type="tns:schedulingData" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reopeningRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+          <xs:element minOccurs="0" name="reasonCode" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reopenEventResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:operationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getEvents">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="requestedEvents" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getEventsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessEventsRequestResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="scheduleEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="event" type="tns:businessEvent" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="scheduleEventResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:operationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addAnnotation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="businessEventId" type="xs:string" />
+          <xs:element minOccurs="0" name="annotation" type="tns:annotation" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addAnnotationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:operationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteEvents">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="eventsToDelete" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="options" type="tns:wsEntry" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="deleteEventsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:entitiesOperationResult" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="serviceOrderStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NEW" />
+          <xs:enumeration value="QUALIFIED" />
+          <xs:enumeration value="PRE_SCHEDULED" />
+          <xs:enumeration value="SCHEDULED" />
+          <xs:enumeration value="IN_PROGRESS" />
+          <xs:enumeration value="COMPLETED" />
+          <xs:enumeration value="VALIDATED" />
+          <xs:enumeration value="CANCELLED" />
+          <xs:enumeration value="UNDEFINED" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="status">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NEW" />
+          <xs:enumeration value="QUALIFIED" />
+          <xs:enumeration value="PRE_SCHEDULED" />
+          <xs:enumeration value="SCHEDULED" />
+          <xs:enumeration value="IN_PROGRESS" />
+          <xs:enumeration value="COMPLETED" />
+          <xs:enumeration value="VALIDATED" />
+          <xs:enumeration value="CANCELLED" />
+          <xs:enumeration value="UNDEFINED" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="instruction">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NO" />
+          <xs:enumeration value="YES" />
+          <xs:enumeration value="STATIC" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="extendedReportFieldType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TEXT" />
+          <xs:enumeration value="DROP_DOWN" />
+          <xs:enumeration value="TEXTAREA" />
+          <xs:enumeration value="CHECKBOX" />
+          <xs:enumeration value="NUMERIC" />
+          <xs:enumeration value="BAR_CODE" />
+          <xs:enumeration value="SIGNATURE" />
+          <xs:enumeration value="PHOTO" />
+          <xs:enumeration value="COMMENT" />
+          <xs:enumeration value="GPS" />
+          <xs:enumeration value="DATE" />
+          <xs:enumeration value="TIME" />
+          <xs:enumeration value="URL" />
+          <xs:enumeration value="PHONE" />
+          <xs:enumeration value="PAYMENT" />
+          <xs:enumeration value="MODULE" />
+          <xs:enumeration value="AUDIO" />
+          <xs:enumeration value="VIDEO" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="billingSectionPosition">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TOP" />
+          <xs:enumeration value="BOTTOM" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="editable">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ALWAYS" />
+          <xs:enumeration value="ONCE" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="extendedReportSectionType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CLASSIC" />
+          <xs:enumeration value="TABLE" />
+          <xs:enumeration value="TABLE_HEADER" />
+          <xs:enumeration value="BILLING" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="geocodingMode">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NONE" />
+          <xs:enumeration value="OPTIONAL" />
+          <xs:enumeration value="COMPULSORY" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="quality">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="LOW" />
+          <xs:enumeration value="MEDIUM" />
+          <xs:enumeration value="HIGH" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="source">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CAMERA" />
+          <xs:enumeration value="GALLERY" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="clickableOn">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="BUSINESS_EVENT_COMPLETION" />
+          <xs:enumeration value="ALWAYS" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="urlType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="BROWSER" />
+          <xs:enumeration value="BUSINESS" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="type">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="PHONE" />
+          <xs:enumeration value="MOBILE" />
+          <xs:enumeration value="EMAIL" />
+          <xs:enumeration value="FAX" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="insertionPosition">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="INDEX" />
+          <xs:enumeration value="FIXED_INDEX" />
+          <xs:enumeration value="BEFORE" />
+          <xs:enumeration value="AFTER" />
+          <xs:enumeration value="FIRST" />
+          <xs:enumeration value="LAST" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="level">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="OPTIONAL" />
+          <xs:enumeration value="REQUIRED" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="WSFault" nillable="true" type="tns:simpleOperationResult" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="reopenEventResponse">
+    <wsdl:part name="parameters" element="tns:reopenEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="invalidateEvent">
+    <wsdl:part name="parameters" element="tns:invalidateEvent" />
+  </wsdl:message>
+  <wsdl:message name="createEvents">
+    <wsdl:part name="parameters" element="tns:createEvents" />
+  </wsdl:message>
+  <wsdl:message name="addAnnotationResponse">
+    <wsdl:part name="parameters" element="tns:addAnnotationResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancelEvent">
+    <wsdl:part name="parameters" element="tns:cancelEvent" />
+  </wsdl:message>
+  <wsdl:message name="unscheduleEvent">
+    <wsdl:part name="parameters" element="tns:unscheduleEvent" />
+  </wsdl:message>
+  <wsdl:message name="deleteEventsResponse">
+    <wsdl:part name="parameters" element="tns:deleteEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchEventsResponse">
+    <wsdl:part name="parameters" element="tns:searchEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancelEventResponse">
+    <wsdl:part name="parameters" element="tns:cancelEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteEvents">
+    <wsdl:part name="parameters" element="tns:deleteEvents" />
+  </wsdl:message>
+  <wsdl:message name="createEventsResponse">
+    <wsdl:part name="parameters" element="tns:createEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getEventsResponse">
+    <wsdl:part name="parameters" element="tns:getEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchEvents">
+    <wsdl:part name="parameters" element="tns:searchEvents" />
+  </wsdl:message>
+  <wsdl:message name="updateEventResponse">
+    <wsdl:part name="parameters" element="tns:updateEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="scheduleEventResponse">
+    <wsdl:part name="parameters" element="tns:scheduleEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="WSException">
+    <wsdl:part name="WSException" element="tns:WSFault" />
+  </wsdl:message>
+  <wsdl:message name="invalidateEventResponse">
+    <wsdl:part name="parameters" element="tns:invalidateEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateEvent">
+    <wsdl:part name="parameters" element="tns:updateEvent" />
+  </wsdl:message>
+  <wsdl:message name="unscheduleEventResponse">
+    <wsdl:part name="parameters" element="tns:unscheduleEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="reopenEvent">
+    <wsdl:part name="parameters" element="tns:reopenEvent" />
+  </wsdl:message>
+  <wsdl:message name="getEvents">
+    <wsdl:part name="parameters" element="tns:getEvents" />
+  </wsdl:message>
+  <wsdl:message name="scheduleEvent">
+    <wsdl:part name="parameters" element="tns:scheduleEvent" />
+  </wsdl:message>
+  <wsdl:message name="addAnnotation">
+    <wsdl:part name="parameters" element="tns:addAnnotation" />
+  </wsdl:message>
+  <wsdl:portType name="BusinessEventManager">
+    <wsdl:operation name="searchEvents">
+      <wsdl:input name="searchEvents" message="tns:searchEvents" />
+      <wsdl:output name="searchEventsResponse" message="tns:searchEventsResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="invalidateEvent">
+      <wsdl:input name="invalidateEvent" message="tns:invalidateEvent" />
+      <wsdl:output name="invalidateEventResponse" message="tns:invalidateEventResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="createEvents">
+      <wsdl:input name="createEvents" message="tns:createEvents" />
+      <wsdl:output name="createEventsResponse" message="tns:createEventsResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="cancelEvent">
+      <wsdl:input name="cancelEvent" message="tns:cancelEvent" />
+      <wsdl:output name="cancelEventResponse" message="tns:cancelEventResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateEvent">
+      <wsdl:input name="updateEvent" message="tns:updateEvent" />
+      <wsdl:output name="updateEventResponse" message="tns:updateEventResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="unscheduleEvent">
+      <wsdl:input name="unscheduleEvent" message="tns:unscheduleEvent" />
+      <wsdl:output name="unscheduleEventResponse" message="tns:unscheduleEventResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="reopenEvent">
+      <wsdl:input name="reopenEvent" message="tns:reopenEvent" />
+      <wsdl:output name="reopenEventResponse" message="tns:reopenEventResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="getEvents">
+      <wsdl:input name="getEvents" message="tns:getEvents" />
+      <wsdl:output name="getEventsResponse" message="tns:getEventsResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="scheduleEvent">
+      <wsdl:input name="scheduleEvent" message="tns:scheduleEvent" />
+      <wsdl:output name="scheduleEventResponse" message="tns:scheduleEventResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="addAnnotation">
+      <wsdl:input name="addAnnotation" message="tns:addAnnotation" />
+      <wsdl:output name="addAnnotationResponse" message="tns:addAnnotationResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteEvents">
+      <wsdl:input name="deleteEvents" message="tns:deleteEvents" />
+      <wsdl:output name="deleteEventsResponse" message="tns:deleteEventsResponse" />
+      <wsdl:fault name="WSException" message="tns:WSException" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BusinessEventManagerServiceSoapBinding" type="tns:BusinessEventManager">
+    <wsp:PolicyReference URI="#OptionalAttachmentPolicy" wsdl:required="true" />
+    <wsp:PolicyReference URI="#SecureTransportBasicAuthPolicy" wsdl:required="true" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="searchEvents">
+      <soap12:operation soapAction="searchEvents" style="document" />
+      <wsdl:input name="searchEvents">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="searchEventsResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="invalidateEvent">
+      <soap12:operation soapAction="invalidateEvent" style="document" />
+      <wsdl:input name="invalidateEvent">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="invalidateEventResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createEvents">
+      <soap12:operation soapAction="createEvents" style="document" />
+      <wsdl:input name="createEvents">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createEventsResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="cancelEvent">
+      <soap12:operation soapAction="cancelEvent" style="document" />
+      <wsdl:input name="cancelEvent">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="cancelEventResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateEvent">
+      <soap12:operation soapAction="updateEvent" style="document" />
+      <wsdl:input name="updateEvent">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="updateEventResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="unscheduleEvent">
+      <soap12:operation soapAction="unscheduleEvent" style="document" />
+      <wsdl:input name="unscheduleEvent">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="unscheduleEventResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="reopenEvent">
+      <soap12:operation soapAction="reopenEvent" style="document" />
+      <wsdl:input name="reopenEvent">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="reopenEventResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEvents">
+      <soap12:operation soapAction="getEvents" style="document" />
+      <wsdl:input name="getEvents">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEventsResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="scheduleEvent">
+      <soap12:operation soapAction="scheduleEvent" style="document" />
+      <wsdl:input name="scheduleEvent">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="scheduleEventResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addAnnotation">
+      <soap12:operation soapAction="addAnnotation" style="document" />
+      <wsdl:input name="addAnnotation">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addAnnotationResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEvents">
+      <soap12:operation soapAction="deleteEvents" style="document" />
+      <wsdl:input name="deleteEvents">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteEventsResponse">
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WSException">
+        <soap12:fault use="literal" name="WSException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BusinessEventManagerService">
+    <wsdl:port name="BusinessEventManagerPort" binding="tns:BusinessEventManagerServiceSoapBinding">
+      <soap12:address location="https://am2.praxedo.com/eTech/services/cxf/v6/BusinessEventManager" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

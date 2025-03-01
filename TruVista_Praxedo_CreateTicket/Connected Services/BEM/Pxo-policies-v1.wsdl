@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsoma="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" name="Pxo-policies-v1.0" targetNamespace="http://ws.praxedo.com/policies/v1.0" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy Name="http://ws.praxedo.com/policies/v1.0/AttachmentPolicy" wsu:Id="AttachmentPolicy">
+    <!-- @see https://www.w3.org/Submission/WS-MTOMPolicy/
+			/wsoma:OptimizedMimeSerialization 
+				A policy assertion that specifies that MTOM [MTOM] MUST be used in messages sent to the Web service. It also specifies that responses from the Web service 
+				MUST be optimized using MTOM [MTOM], i.e. that the messages must be sent using the application/xop+xml mime type. 
+		-->
+    <wsoma:OptimizedMimeSerialization />
+  </wsp:Policy>
+  <wsp:Policy Name="http://ws.praxedo.com/policies/v1.0/AttachmentPolicy" wsu:Id="OptionalAttachmentPolicy">
+    <!-- @see https://www.w3.org/Submission/WS-MTOMPolicy/
+			/wsoma:OptimizedMimeSerialization 
+				A policy assertion that specifies that MTOM [MTOM] MUST be used in messages sent to the Web service. It also specifies that responses from the Web service 
+				MUST be optimized using MTOM [MTOM], i.e. that the messages must be sent using the application/xop+xml mime type. 
+			/wsoma:OptimizedMimeSerialization/@wsp:Optional="true" 
+				Per WS-Policy [WS-Policy], this is compact notation for two policy alternatives, one with and one without the assertion. This indicates that the behavior 
+				indicated by the assertion is optional, specifically that non-MTOM-encoded exchanges are also supported by the endpoint.
+			In other words, the endpoint supports non-MTOM-encoded requests, BUT it ALWAYS responds using MTOM-encoded messages.
+		-->
+    <wsoma:OptimizedMimeSerialization wsp:Optional="true" />
+  </wsp:Policy>
+  <wsp:Policy Name="http://ws.praxedo.com/policies/v1.0/SecureTransportBasicAuthPolicy" wsu:Id="SecureTransportBasicAuthPolicy">
+    <sp:TransportBinding>
+      <wsp:Policy>
+        <sp:TransportToken>
+          <wsp:ExactlyOne>
+            <wsp:Policy>
+              <sp:HttpsToken>
+                <wsp:Policy />
+              </sp:HttpsToken>
+            </wsp:Policy>
+            <wsp:Policy />
+          </wsp:ExactlyOne>
+        </sp:TransportToken>
+        <sp:AlgorithmSuite>
+          <wsp:Policy>
+            <wsp:ExactlyOne>
+              <sp:Basic128 />
+              <sp:Basic256 />
+            </wsp:ExactlyOne>
+          </wsp:Policy>
+        </sp:AlgorithmSuite>
+      </wsp:Policy>
+    </sp:TransportBinding>
+  </wsp:Policy>
+  <types />
+</definitions>
