@@ -86,12 +86,12 @@
 | RQ-009 | The system shall include debugging functionality to test and validate integration behavior within the evaluation instance of Praxedo, allowing developers to simulate data flows and detect issues before deployment. |
 
 
-### Entity_Relationship_Diagram
-![Solution Architecture](docs/UML_Class_Diagram.png)  
+### Entity Relationship Diagram
+![Entity_Relationship_Diagram](docs/Entity_Relationship_Diagram.jpg)  
      ---
 
-### UML_Class_Diagram
-![Solution Architecture](docs/Entity_Relationship_Diagram.jpg)  
+### UML Class Diagram
+![UML_Class_Diagram](docs/UML_Class_Diagram.png)  
      ---
 
 
