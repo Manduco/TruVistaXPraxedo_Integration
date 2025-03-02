@@ -85,7 +85,7 @@
 | RQ-008 | The integration shall support role-based access control (RBAC) to restrict access to configuration settings and logs to authorized users only. |
 | RQ-009 | The system shall include debugging functionality to test and validate integration behavior within the evaluation instance of Praxedo, allowing developers to simulate data flows and detect issues before deployment. |
 
-## Repository Contents
+## Entity_Relationship_Diagram
 - `README.md` (This file)
 - `docs/` (Design documents, including user stories, use cases, and architecture diagrams)
 - `images/` (Diagrams for architecture, wireframes, and use case models)
