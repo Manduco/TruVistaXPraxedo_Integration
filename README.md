@@ -91,7 +91,7 @@
      ---
 
 ### UML_Class_Diagram
-![Solution Architecture](docs/UML_Class_Diagram.png)  
+![Solution Architecture](docs/Entity_Relationship_Diagram.jpg)  
      ---
 
 
