@@ -13,8 +13,8 @@
 5. [Repository Contents](#repository-contents)
 6. [Next Steps](#next-steps)
 7. [Requirements Table](#requirements-table)
-8. [Entity Relationship Diagram](#Entity_Relationship_Diagram)
-9. [UML Class Diagram](#UML_Class_Diagram)
+8. [Entity Relationship Diagram](#Entity-Relationship-Diagram)
+9. [UML Class Diagram](#UML-Class-Diagram)
 
 
 ## <ins>Overview</ins>
@@ -87,11 +87,11 @@
 
 
 ### Entity Relationship Diagram
-![Entity_Relationship_Diagram](docs/Entity_Relationship_Diagram.jpg)  
+![Entity Relationship Diagram](docs/Entity_Relationship_Diagram.jpg)  
      ---
 
 ### UML Class Diagram
-![UML_Class_Diagram](docs/UML_Class_Diagram.png)  
+![UML Class Diagram](docs/UML_Class_Diagram.png)  
      ---
 
 
