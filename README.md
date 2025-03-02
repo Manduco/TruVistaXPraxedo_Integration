@@ -13,6 +13,8 @@
 5. [Repository Contents](#repository-contents)
 6. [Next Steps](#next-steps)
 7. [Requirements Table](#requirements-table)
+8. [Entity Relationship Diagram](#Entity_Relationship_Diagram)
+9. [UML Class Diagram](#UML_Class_Diagram)
 
 
 ## <ins>Overview</ins>
@@ -82,6 +84,12 @@
 | RQ-007 | The system shall implement retry logic for failed synchronizations, ensuring data consistency and reducing manual intervention. |
 | RQ-008 | The integration shall support role-based access control (RBAC) to restrict access to configuration settings and logs to authorized users only. |
 | RQ-009 | The system shall include debugging functionality to test and validate integration behavior within the evaluation instance of Praxedo, allowing developers to simulate data flows and detect issues before deployment. |
+
+## UML Class Diagram
+
+
+## Requirements Table
+
 
 
 We are off!🚀
