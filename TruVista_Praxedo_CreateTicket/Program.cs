@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Bogus;
+using Bogus.DataSets;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Policy;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TruVista_Praxedo_CreateTicket.BEM;
 
 namespace TruVista_Praxedo_CreateTicket
@@ -13,14 +18,33 @@ namespace TruVista_Praxedo_CreateTicket
     {
         static void Main(string[] args)
         {
-            //pull datat from ERP/CRM
+            RunTimeConfigs configs = new RunTimeConfigs();//custom class for configs setting
+            Data data = new Data();//custom class for configs setting
+            configs.Debug_mode = true;
+            configs.use_fakedata = true;
+            configs.use_PraxedoEvalEnv = true;
+
+            data.GenerateFakeData();
+
+            Console.WriteLine($"Fake Name: {data.FirstName} {data.LastName}");
+            Console.WriteLine($"Fake Email: {data.Email}");
+            Console.WriteLine($"Fake Work Order: {data.WorkOrder}");
+            businessEvent ticket = BuildTicket(data, configs);//not done
+
+            //Submission
+            //For this step, submit the URL for the github project repository and a comment indicating 'ready for review.' Within the repository make a folder called prototype and a(separate) readme, which includes a narrative with screenshot images or links to HTML documents outlining the functionality of the prototype.
+            //Sketches or mockups are acceptable at this stage.If you are comfortable creating HTML code at this point, it will be a helpful headstart for later.
+            //    It's important to contain the prototype in a separate (or sub-) folder to clearly identify this as a prototype with no expetation for finished functionality.
+
+
+            //SendReqest_ToPraxedo(ticket, data, configs);
+            //pull data from ERP/CRM
             //Build ticket/event using praxedo soap object service reference from data pulled from truVista
             //send the event e.i ticket request to Praxedo capture response
             //return response to truvista
         }
-        public static businessEvent BuildTicket(DataRow ticketData, Data ticket,  RunTimeConfigs config)
+        public static businessEvent BuildTicket(Data ticket,  RunTimeConfigs config)
         {
-
 
             string[] PROPERTY = new string[5];
             int priority_lv = 0;
@@ -160,6 +184,7 @@ namespace TruVista_Praxedo_CreateTicket
     {
 
         public bool Debug_mode { get; set; } = false;
+        public bool use_fakedata { get; set; } = false;
         public string Prodconnstr { get; set; } = @"";
         public string Debugconnstr { get; set; } = @"";
         public bool use_PraxedoEvalEnv { get; set; } = false;
@@ -271,8 +296,45 @@ namespace TruVista_Praxedo_CreateTicket
         }
         public void GenerateFakeData()
         {
-            ///
+            var faker = new Faker();
 
+            PraxedoId = faker.Random.Guid().ToString();
+            WorkOrder = faker.Random.AlphaNumeric(10);
+            WorkOrderNumber = faker.Random.Number(100000, 999999).ToString();
+            WorkOrderType = faker.PickRandom(new[] { "Repair", "Installation", "Maintenance" });
+            TicketId = faker.Random.AlphaNumeric(8);
+            LeadNumber = faker.Random.AlphaNumeric(6);
+            CreateDate = faker.Date.Past(1).ToString("yyyy-MM-dd HH:mm:ss");
+
+            FirstName = faker.Name.FirstName();
+            LastName = faker.Name.LastName();
+
+            Description = faker.Lorem.Sentence();
+            WorkOrderCode = faker.Random.AlphaNumeric(6);
+            Duration = faker.Random.Number(1, 8).ToString() + " hours";
+            Instruction = faker.Lorem.Sentence();
+            ScheduledDate = faker.Date.Future().ToString("yyyy-MM-dd HH:mm:ss");
+            AssignedToId = faker.Random.Guid().ToString();
+
+            Email = faker.Internet.Email();
+            HomePhone = faker.Phone.PhoneNumber();
+            WorkPhone = faker.Phone.PhoneNumber();
+            Mobile = faker.Phone.PhoneNumber();
+
+            StoreAccountId = faker.Random.Guid().ToString();
+            StoreName = faker.Company.CompanyName();
+            StorePhone = faker.Phone.PhoneNumber();
+            StoreAddress = faker.Address.StreetAddress();
+            StoreCity = faker.Address.City();
+            StoreState = faker.Address.StateAbbr();
+            StorePostalCode = faker.Address.ZipCode();
+            StoreNumber = faker.Random.Number(1, 9999).ToString();
+
+            Address1 = faker.Address.StreetAddress();
+            Address2 = faker.Address.SecondaryAddress();
+            City = faker.Address.City();
+            State = faker.Address.StateAbbr();
+            PostalCode = faker.Address.ZipCode();
         }
 
     }
