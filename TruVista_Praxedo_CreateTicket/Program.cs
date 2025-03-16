@@ -20,7 +20,8 @@ namespace TruVista_Praxedo_CreateTicket
     {
         static void Main(string[] args)
         {
-            //var client = new BusinessEventManagerClient();
+            //ready for review. 
+
             RunTimeConfigs configs = new RunTimeConfigs();//custom class for configs setting
             Data data = new Data();//custom class for configs setting
             configs.Debug_mode = true;

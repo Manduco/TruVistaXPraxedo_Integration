@@ -1,4 +1,4 @@
-# TruVista Praxedo Ticket Creation Prototype
+# TruVista Praxedo Ticket Creation Prototype v.1.3
 
 ## Overview
 This prototype is a **C# console application** designed to facilitate the creation and submission of work order tickets from **TruVista** to **Praxedo**. The program initializes configurations, retrieves or generates work order data, constructs a Praxedo-compatible ticket, and sends the request.
