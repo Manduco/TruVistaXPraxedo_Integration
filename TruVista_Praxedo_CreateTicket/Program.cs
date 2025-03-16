@@ -30,7 +30,7 @@ namespace TruVista_Praxedo_CreateTicket
             Console.WriteLine($"Fake Email: {data.Email}");
             Console.WriteLine($"Fake Work Order: {data.WorkOrder}");
             businessEvent ticket = BuildTicket(data, configs);//not done
-
+            //
             //Submission
             //For this step, submit the URL for the github project repository and a comment indicating 'ready for review.' Within the repository make a folder called prototype and a(separate) readme, which includes a narrative with screenshot images or links to HTML documents outlining the functionality of the prototype.
             //Sketches or mockups are acceptable at this stage.If you are comfortable creating HTML code at this point, it will be a helpful headstart for later.
