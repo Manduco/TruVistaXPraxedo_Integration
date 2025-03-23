@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.ServiceModel;
@@ -28,7 +29,7 @@ namespace TruVista_Praxedo_CreateTicket
             configs.use_fakedata = true;
             configs.use_PraxedoEvalEnv = true;
 
-
+            GetPraxedoTicketData("test_1");
             if (configs.use_fakedata)
             {
                 data.GenerateFakeData();//for testing and debiggin
@@ -115,15 +116,20 @@ namespace TruVista_Praxedo_CreateTicket
 
             //string[] PROPERTY = new string[5];
             //int priority_lv = 0;
+
             contact[] contacts = Build_Contacts(ticket);
+                  var Location = Build_Location(ticket);
+                  var ERD = Build_ERD(ticket, Location);
+
             var CoreData = new coreData
             {
                 contacts = contacts,
-                referentialData = null,
+                referentialData = ERD,
                 description = ticket.Description,
                 priority = 0,
                 creationDateSpecified = true,
                 expirationDateSpecified = true,
+                organizationalUnitId = "TRUVISTA",
                 //expirationDate = runTime.Do_Before,
                 earliestDateSpecified = true,
                 //earliestDate = runTime.Do_After,
@@ -132,7 +138,7 @@ namespace TruVista_Praxedo_CreateTicket
             Console.WriteLine("check");
             var QD_Type = new businessEventType
             {
-                id = ticket.WorkOrderCode,//workorder type
+                id = "INSTALL",//workorder type
                 //duration = 60,
                 skills = null,
                 extensions = null
@@ -166,12 +172,12 @@ namespace TruVista_Praxedo_CreateTicket
             var Event = new businessEvent
             {
                 completionData = null,
-                id = ticket.WorkOrder,
+                //id = ticket.WorkOrder,
                 coreData = CoreData,
                 qualificationData = QD,
                 contractData = contract,
                 message = msg,
-                status = status.QUALIFIED,
+                //status = status.QUALIFIED,
                 statusSpecified = true,
                 attachments = null
             };
@@ -275,6 +281,43 @@ namespace TruVista_Praxedo_CreateTicket
 
             return contacts;
         }
+        public static externalReferentialData Build_ERD(Data ticket, location Location)
+        {
+            string CLIENTNAME = ticket.FirstName +" " + ticket.LastName;
+            var ERD = new externalReferentialData
+            {
+                customerName = CLIENTNAME,
+                equipmentName = null,//ASSET NO NEED WILL BE ADDED VIA ITEMS
+                location = Location
+            };
+
+            return ERD;
+        }
+        public static location Build_Location(Data ticket)
+        {
+            // Data ticket
+            string Sitedescription = "";
+            string desc = "";
+            string clientname = ticket.FirstName + " " + ticket.LastName;
+
+            if (string.IsNullOrEmpty(Sitedescription))
+            {
+                Sitedescription = ticket.FirstName +" "+ ticket.LastName;
+            }
+
+
+            var Location = new location
+            {
+                address = ticket.Address1,
+                city = ticket.City,
+                zipCode = ticket.PostalCode,
+                name = clientname,
+                contact = clientname,
+                description = Sitedescription
+            };
+
+            return Location;
+        }
         public static void SendReqest_ToPraxedo(businessEvent[] events,  Data ticket, RunTimeConfigs config)
         {
             var client = new BusinessEventManagerClient();
@@ -363,6 +406,86 @@ namespace TruVista_Praxedo_CreateTicket
             {
                 return null;
             }
+        }
+        public static string GetPraxedoTicketData(string wo)
+        {
+            string[] WO = new string[1];
+            WO[0] = wo;
+            //00006
+            BEM.wsEntry[] options = new BEM.wsEntry[5];
+
+            options[0] = createOption("businessEvent.populate.coreData");
+            options[1] = createOption("businessEvent.populate.schedulingData");
+            options[2] = createOption("businessEvent.populate.completionData.extendedItems");
+            options[3] = createOption("businessEvent.populate.qualificationData");
+            options[4] = createOption("businessEvent.populate.qualificationData.expectedItems");
+
+            BEM.wsEntry createOption(string key)
+            {
+                BEM.wsEntry option = new BEM.wsEntry();
+                option.key = key;
+                return option;
+            }
+
+            var client = new BusinessEventManagerClient();
+            client.ClientCredentials.UserName.UserName = "truvista.webservice";
+            client.ClientCredentials.UserName.Password = "truvistaPraxedo01!";
+            client.Open();
+
+
+        OperationContextScope scope = new OperationContextScope(client.InnerChannel);
+            var httpRequestProperty = new System.ServiceModel.Channels.HttpRequestMessageProperty();
+            httpRequestProperty.Headers[System.Net.HttpRequestHeader.Authorization] = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(client.ClientCredentials.UserName.UserName + ":" + client.ClientCredentials.UserName.Password));
+            OperationContext.Current.OutgoingMessageProperties[System.ServiceModel.Channels.HttpRequestMessageProperty.Name] = httpRequestProperty;
+
+            try
+            {
+                var res = client.getEvents(WO, options);
+
+                if (res.entities != null)
+                {
+
+                    foreach (var entity in res.entities)
+                    {
+
+                        //B.TICKET_STATUS = entity.status.ToString();
+                        //if (string.IsNullOrEmpty(B.TICKET_STATUS)) { B.TICKET_STATUS = ""; }
+                        //B.WORKORDERTYPE = (entity.qualificationData.@type).id.ToString();
+                        ////var usedItems = entity.completionData.usedItems;
+                        //B.WORKORDER = entity.id;
+                        ////var workordertype = (entity.qualificationData.@type).id;
+                        //var message = entity.message;
+                        //B.Ticket_Exist = true;
+                    }
+
+
+                }
+                else
+                {
+                    Console.WriteLine("Not Found");
+                    //.Ticket_Exist = false;
+
+                }
+
+
+                //if (res.resultCode.Equals(0))
+                //{
+                //    //ProcessWorkOrder(res);
+
+                //}
+                //Console.WriteLine("done");
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+
+            }
+            finally
+            {
+                client.Close(); // Close the client
+            }
+            return "";
         }
     }
 
@@ -488,7 +611,7 @@ namespace TruVista_Praxedo_CreateTicket
             var faker = new Faker();
 
             PraxedoId = faker.Random.Guid().ToString();
-            WorkOrder = faker.Random.AlphaNumeric(10);
+            WorkOrder = "TEST-"+GenerateWorkOrder();//make it a number start at 0 // pulls number from text file in the this dir get that number add 1 
             WorkOrderNumber = faker.Random.Number(100000, 999999).ToString();
             WorkOrderType = faker.PickRandom(new[] { "Repair", "Installation", "Maintenance" });
             TicketId = faker.Random.AlphaNumeric(8);
@@ -524,6 +647,32 @@ namespace TruVista_Praxedo_CreateTicket
             City = faker.Address.City();
             State = faker.Address.StateAbbr();
             PostalCode = faker.Address.ZipCode();
+        }
+        public static string GenerateWorkOrder()
+        {
+            int workOrderNumber = 0;
+             string FilePath = Path.Combine(Directory.GetCurrentDirectory(), "workorder.txt");
+
+            // Check if the file exists
+            if (File.Exists(FilePath))
+            {
+                // Read the number from the file
+                var fileContent = File.ReadAllText(FilePath);
+                if (int.TryParse(fileContent, out int currentNumber))
+                {
+                    workOrderNumber = currentNumber;
+                }
+            }
+
+            // Increment the number
+            workOrderNumber++;
+
+            // Save the new number back to the file
+            File.WriteAllText(FilePath, workOrderNumber.ToString());
+
+            // Generate alphanumeric string with the work order number
+            //var alphanumeric = new Random().Next(100000, 999999).ToString();
+            return workOrderNumber.ToString();
         }
 
     }

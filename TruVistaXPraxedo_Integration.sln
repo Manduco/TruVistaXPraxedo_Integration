@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TruVistaXPraxedo_Integratio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TruVista_Praxedo_CreateTicket", "TruVista_Praxedo_CreateTicket\TruVista_Praxedo_CreateTicket.csproj", "{A2839ADC-0AD5-4782-BC36-B9A3EE49F61B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TruVista_Praxedo_GetTicket", "TruVista_Praxedo_GetTicket\TruVista_Praxedo_GetTicket.csproj", "{42DE648A-12B4-4E87-B311-12738082ED15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A2839ADC-0AD5-4782-BC36-B9A3EE49F61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2839ADC-0AD5-4782-BC36-B9A3EE49F61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2839ADC-0AD5-4782-BC36-B9A3EE49F61B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42DE648A-12B4-4E87-B311-12738082ED15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42DE648A-12B4-4E87-B311-12738082ED15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42DE648A-12B4-4E87-B311-12738082ED15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42DE648A-12B4-4E87-B311-12738082ED15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
