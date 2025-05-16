@@ -29,16 +29,8 @@ namespace TruVista_Praxedo_CreateTicket
             configs.use_fakedata = true;
             configs.use_PraxedoEvalEnv = true;
 
-            GetPraxedoTicketData("test_1");
-            if (configs.use_fakedata)
-            {
-                data.GenerateFakeData();//for testing and debiggin
-            }
-            else
-            {
-                ///productions
-                //GetTickets();//get workorders from truvista 
-            }
+            //GetPraxedoTicketData("test_1");
+            PullTickets(configs, data);
 
 
             Console.WriteLine($"Fake Name: {data.FirstName} {data.LastName}");
@@ -69,7 +61,7 @@ namespace TruVista_Praxedo_CreateTicket
         public static DataTable GetTickets(RunTimeConfigs config, int amount)
         {
             // this function pulls real data from a production database not complete
-            string connstr = config.connstr;
+            string connstr = "string connstr";
             if (amount <= 0) { amount = 1; }
 
             OleDbConnection conn = new OleDbConnection(connstr);
@@ -117,6 +109,8 @@ namespace TruVista_Praxedo_CreateTicket
             //string[] PROPERTY = new string[5];
             //int priority_lv = 0;
 
+            // instruction START_JOB_CF 
+
             contact[] contacts = Build_Contacts(ticket);
                   var Location = Build_Location(ticket);
                   var ERD = Build_ERD(ticket, Location);
@@ -130,15 +124,15 @@ namespace TruVista_Praxedo_CreateTicket
                 creationDateSpecified = true,
                 expirationDateSpecified = true,
                 organizationalUnitId = "TRUVISTA",
-                //expirationDate = runTime.Do_Before,
+                expirationDate = DateTime.UtcNow.AddDays(2), //runTime.Do_Before,
                 earliestDateSpecified = true,
-                //earliestDate = runTime.Do_After,
-                //creationDate = runTime.CREATIONDATE,
+                earliestDate = DateTime.UtcNow.AddDays(2),//runTime.Do_After,
+                creationDate = DateTime.UtcNow
             };
             Console.WriteLine("check");
             var QD_Type = new businessEventType
             {
-                id = "INSTALL",//workorder type
+                id = ticket.WorkOrderType,//workorder type
                 //duration = 60,
                 skills = null,
                 extensions = null
@@ -172,12 +166,12 @@ namespace TruVista_Praxedo_CreateTicket
             var Event = new businessEvent
             {
                 completionData = null,
-                //id = ticket.WorkOrder,
+                id = ticket.WorkOrder,
                 coreData = CoreData,
                 qualificationData = QD,
                 contractData = contract,
                 message = msg,
-                //status = status.QUALIFIED,
+                status = status.QUALIFIED,
                 statusSpecified = true,
                 attachments = null
             };
@@ -299,10 +293,13 @@ namespace TruVista_Praxedo_CreateTicket
             string Sitedescription = "";
             string desc = "";
             string clientname = ticket.FirstName + " " + ticket.LastName;
+            string site = ticket.FirstName + "'s Home " ;
+            string contact = ticket.FirstName + " " + ticket.LastName;
+            string description = "";
 
             if (string.IsNullOrEmpty(Sitedescription))
             {
-                Sitedescription = ticket.FirstName +" "+ ticket.LastName;
+                Sitedescription = "residential";
             }
 
 
@@ -311,7 +308,7 @@ namespace TruVista_Praxedo_CreateTicket
                 address = ticket.Address1,
                 city = ticket.City,
                 zipCode = ticket.PostalCode,
-                name = clientname,
+                name = site,
                 contact = clientname,
                 description = Sitedescription
             };
@@ -487,6 +484,64 @@ namespace TruVista_Praxedo_CreateTicket
             }
             return "";
         }
+        public static DataTable PullTickets(RunTimeConfigs config, Data data)
+        {
+
+
+                Console.WriteLine("Pull prod data");
+                string connstr = "Provider=SQLOLEDB.1;Password=R0n_Armand0;Persist Security Info=True;User ID=BigboxAdmin;Initial Catalog=BigBox_CHR;Data Source=PraxTest";
+                //string connstr = config.connstr;
+                
+
+                OleDbConnection conn = new OleDbConnection(connstr);
+                DataTable customTable = new DataTable(); // Create a custom table to return on failure
+                                                         // string workOrderNumber = "275532";//269214 not found in slx 
+
+            //275594 and 275532
+
+            //FROM [BigBox_CHR].[dbo].[TROrders]
+
+
+            string SqL = string.Format(@"select top 40 * from [dbo].[TROrders]  order by ProvisioningDate desc ", 40);
+                //SqL = string.Format(@"select top 50 * from sysdba.PRAXEDO_TICKETS 
+                //    where createdate < GETDATE()-5 order by CREATEDATE desc");
+                //SqL = string.Format(@"select * from sysdba.PRAXEDO_TICKETS where workorder like '%{0}%'", workOrderNumber);
+
+                try
+                {
+                    using (OleDbCommand command = new OleDbCommand(SqL, conn))
+                    {
+                        using (OleDbDataAdapter adapter = new OleDbDataAdapter(command))
+                        {
+                            try
+                            {
+                                DataSet dataSet = new DataSet();
+                                adapter.Fill(dataSet, "tickets");
+                                DataTable dataTable = dataSet.Tables["tickets"];
+
+                                //Console.WriteLine("  !Found Workorder in DB:" + workOrderNumber);
+                                return dataTable;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"An error occurred: {ex.Message}");
+                                throw;
+                            }
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                    // Log the error or take appropriate action
+                    // Return the custom table or any other suitable response
+                    return customTable;
+                }
+                ///productions
+                //GetTickets();//get workorders from truvista 
+            
+        }
     }
 
     public class RunTimeConfigs
@@ -500,6 +555,7 @@ namespace TruVista_Praxedo_CreateTicket
         public bool use_PraxedoProdEnv { get; set; } = false;
         public bool use_Prod_CRMERP { get; set; } = false;
         public bool use_Eval_CRMERP { get; set; } = false;
+        public string connstr { get; set; } 
         public string Praxedo_prod_api_username { get; set; } = "";
         public string Praxedo_prod_api_pass { get; set; } = "";
         public string Praxedo_EvalEnv_api_username { get; set; } = "truvista.webservice";
@@ -508,24 +564,24 @@ namespace TruVista_Praxedo_CreateTicket
         //RFisherProfilingSolutions
         //truvista.api
         //truvistaPraxedo01!
-        public string connstr
-        {
-            get
-            {
-                if (Debug_mode)
-                {
-                    return Debugconnstr;
-                }
-                else if (use_Prod_CRMERP)
-                {
-                    return Prodconnstr;
-                }
-                else
-                {
-                    return Prodconnstr;
-                }
-            }
-        }
+        //public string connstr
+        //{
+        //    get
+        //    {
+        //        if (Debug_mode)
+        //        {
+        //            return Debugconnstr;
+        //        }
+        //        else if (use_Prod_CRMERP)
+        //        {
+        //            return Prodconnstr;
+        //        }
+        //        else
+        //        {
+        //            return Prodconnstr;
+        //        }
+        //    }
+        //}
         public (string username, string pass) PraxedoEnv
         {
             get
@@ -613,15 +669,15 @@ namespace TruVista_Praxedo_CreateTicket
             PraxedoId = faker.Random.Guid().ToString();
             WorkOrder = "TEST-"+GenerateWorkOrder();//make it a number start at 0 // pulls number from text file in the this dir get that number add 1 
             WorkOrderNumber = faker.Random.Number(100000, 999999).ToString();
-            WorkOrderType = faker.PickRandom(new[] { "Repair", "Installation", "Maintenance" });
+            WorkOrderType = faker.PickRandom(new[] { "INSTALL", "SITE_SURVEY", "TROUBLE" });
             TicketId = faker.Random.AlphaNumeric(8);
             LeadNumber = faker.Random.AlphaNumeric(6);
             CreateDate = faker.Date.Past(1).ToString("yyyy-MM-dd HH:mm:ss");
 
-            FirstName = "Armando";//faker.Name.FirstName();
-            LastName = "Zincke"; faker.Name.LastName();
+            FirstName = faker.Name.FirstName();
+            LastName = faker.Name.LastName();
 
-            Description = faker.Lorem.Sentence();
+            Description = "This is a test workorder with Fake Data";//faker.Lorem.Sentence();
             WorkOrderCode = faker.Random.AlphaNumeric(6);
             Duration = faker.Random.Number(1, 8).ToString() + " hours";
             Instruction = faker.Lorem.Sentence();
